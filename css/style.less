@@ -1,3 +1,6 @@
+@nav: #3F7F38;
+@dark: black;
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -24,18 +27,18 @@ body {
 }
 
 #nav {
-    background-color: #3F7F38;
+    background-color: @nav;
     margin: 0 auto;
     display: block;
-    border-top: 2px solid black;
+    border-top: 1px solid @dark;
     box-sizing: border-box;
 }
 
 #header {
-    background-color: #3F7F38;
+    background-color: @nav;
     margin: 0 auto;
     display: block;
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid @dark;
     box-sizing: border-box;
 }
 
