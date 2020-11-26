@@ -1,10 +1,14 @@
 export const name = 'canvas';
 
 let ctx;
+let canvas = document.getElementById('canvas');
 
 export function init() {
-    let canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
+}
+
+export function clear() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 export function drawRect(x, y, width, height, color) {
