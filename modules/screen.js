@@ -2,21 +2,33 @@ export const name = 'screen';
 
 export function resize() {
     function resizeCanvas() {
+        
+        let canvas = document.getElementById('canvas');
+        let nav = document.getElementById('nav');
+        let header = document.getElementById('header');
+
         if (window.innerWidth / window.innerHeight < 1.78) {
             //console.log("příliš vysoké");
-            // standard
-            document.getElementById('canvas').style.width = '100vw';
-            document.getElementById('canvas').style.height = '56vw';
+
+            canvas.style.width = nav.style.width = header.style.width = '100vw';
+
+            canvas.style.height = '44vw';
+            nav.style.height = '10vw';
+            header.style.height = '2vw';
         } else {
             //console.log("příliš široké");
-            // change
-            document.getElementById('canvas').style.width = '178vh';
-            document.getElementById('canvas').style.height = '100vh';
+
+            canvas.style.width = nav.style.width = header.style.width = '178vh';
+
+            canvas.style.height = '100vh';
+            nav.style.height = '10vw';
+            header.style.height = '2vw';
         }
     }
 
     window.onresize = function(event) {
         resizeCanvas();
     };
+
     resizeCanvas();
 }
