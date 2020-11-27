@@ -1,26 +1,48 @@
 export class Player {
     constructor() {
-        this.score = 0;
-        this.x = 2;
-        this.y = 2;
-        this.width = 2;
-        this.height = 2;
-        this.color = "blue";
+        this.storage = {
+            score: 0,
+            x: 2,
+            y: 2,
+            width: 1,
+            height: 1,
+            color: "blue",
+        };
+
+        this.storage = {
+            ...this.storage,
+            ...this.load()
+        }
     }
 
     draw() {
-        canvas.drawRect(
-            this.x * game.tile, 
-            this.y * game.tile, 
-            this.width * game.tile, 
-            this.height * game.tile, 
-            this.color
+        game.canvas.drawRect(
+            this.storage.x, 
+            this.storage.y, 
+            this.storage.width, 
+            this.storage.height, 
+            this.storage.color
         );
     }
 
     click() {
-        if (this.x == game.clickX && this.y == game.clickY) {
-            console.log("shot");
+        if (this.storage.x == game.clickX && this.storage.y == game.clickY) {
+           alert("shot"); 
         }
+
+        this.storage.x = game.clickX;
+        this.storage.y = game.clickY;
+        this.save();
+    }
+
+    save() {
+        localStorage.setItem('player', JSON.stringify(this.storage));
+    }
+
+    load() {
+        if (typeof localStorage.getItem('player') !== null) {
+            return JSON.parse(localStorage.getItem('player'));
+        }
+        return {};
     }
 }

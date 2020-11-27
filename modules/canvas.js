@@ -16,7 +16,20 @@ export class Canvas {
 
     drawRect(x, y, width, height, color) {
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(x, y, width, height);
+        this.ctx.fillRect(x * game.tile, y * game.tile, width * game.tile, height * game.tile);
+    }
+
+    drawMap() {
+        for (let row = 0; row < 42; row++) {
+            for (let col = 0; col < 96; col++) {
+                switch (game.map.matrix[row][col]) {
+                    case 1:
+                        this.drawRect(col, row, 1, 1, game.map.colors.wall);
+                        break;
+                    default: break;
+                }
+            }
+        }
     }
 
     click() {
@@ -27,8 +40,8 @@ export class Canvas {
 
     registerClicks() {
         this.canvasEl.addEventListener('click', function(event) {
-            game.clickX = Math.round(((event.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) - 1;
-            game.clickY = Math.round(((event.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) - 1;
+            game.clickX = Math.floor(((event.clientX - game.canvas.canvasEl.offsetLeft) * (game.canvas.canvasEl.width / game.canvas.canvasEl.offsetWidth)) / game.tile);
+            game.clickY = Math.floor(((event.clientY - game.canvas.canvasEl.offsetTop) * (game.canvas.canvasEl.height / game.canvas.canvasEl.offsetHeight)) / game.tile);
         }, false);
     }
 

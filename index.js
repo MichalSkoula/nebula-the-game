@@ -2,27 +2,29 @@
 
 import * as tools from './modules/tools.js';
 import * as Canvas from './modules/Canvas.js';
-//import * as vue from './node_modules/vue/dist/vue.runtime.esm-browser.js';
 import * as Player from './modules/Player.js';
+import * as Maps from './modules/Maps.js';
 
 window.game = {
     tile: 20,
     fps: 30,
     clickX: -1,
-    clickY: -1
+    clickY: -1,
+    canvas: new Canvas.Canvas(),
+    map: new Maps.First()
 };
-window.canvas = new Canvas.Canvas();
 
 var player = new Player.Player();
 
 function loop() {
     if (game.clickX > -1 && game.clickY > -1) {
         player.click();
-        canvas.click();
+        game.canvas.click();
     }
-    canvas.clear();
 
-    // player
+    // draw
+    game.canvas.clear();
+    game.canvas.drawMap();
     player.draw();
 }
 
