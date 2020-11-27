@@ -16,9 +16,9 @@ export class Player {
     }
 
     draw() {
-        game.canvas.drawRect(
-            this.storage.x, 
-            this.storage.y, 
+        canvas.drawRect(
+            this.storage.x - game.offsetX, 
+            this.storage.y - game.offsetY, 
             this.storage.width, 
             this.storage.height, 
             this.storage.color
@@ -27,7 +27,7 @@ export class Player {
 
     click() {
         if (this.storage.x == game.clickX && this.storage.y == game.clickY) {
-           alert("shot"); 
+           alert("shot");
         }
 
         this.storage.x = game.clickX;
