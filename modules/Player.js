@@ -6,13 +6,8 @@ export class Player {
             y: 2,
             width: 1,
             height: 1,
-            color: "blue",
+            color: 'red',
         };
-
-        this.storage = {
-            ...this.storage,
-            ...this.load()
-        }
     }
 
     draw() {
@@ -27,22 +22,29 @@ export class Player {
 
     click() {
         if (this.storage.x == game.clickX && this.storage.y == game.clickY) {
-           alert("shot");
+            console.log("shot");
         }
 
-        this.storage.x = game.clickX;
-        this.storage.y = game.clickY;
-        this.save();
+        if (game.clickY < game.screenHeight) {
+            this.storage.y = game.clickY;
+            this.storage.x = game.clickX;
+        }
     }
 
     save() {
         localStorage.setItem('player', JSON.stringify(this.storage));
+        console.log("game saved");
     }
 
     load() {
         if (typeof localStorage.getItem('player') !== null) {
-            return JSON.parse(localStorage.getItem('player'));
+            this.storage = {
+                ...this.storage,
+                ...JSON.parse(localStorage.getItem('player'))
+            }
+            console.log("game loaded");
+            return true;
         }
-        return {};
+        return false;
     }
 }
