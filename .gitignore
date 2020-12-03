@@ -3,4 +3,6 @@ css/style.css.map
 node_modules/*
 deployment.log
 deployment.php
+deploy
+modules/node_bundle.js
 temp

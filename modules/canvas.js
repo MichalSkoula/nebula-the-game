@@ -22,6 +22,14 @@ export class Canvas {
         this.ctx.fillText(text, x * game.tile, y * game.tile);
     }
 
+    drawLine(x, y, x2, y2, color) {
+        this.ctx.strokeStyle = color;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x * game.tile, y * game.tile);
+        this.ctx.lineTo(x2 * game.tile, y2 * game.tile);
+        this.ctx.stroke();
+    }
+
     drawMap() {
         for (let row = 0; row < game.screenHeight; row++) {
             for (let col = 0; col < game.screenWidth; col++) {
@@ -35,6 +43,14 @@ export class Canvas {
                     default: break;
                 }
             }
+        }
+
+        // grid
+        for (let i = 0; i < game.screenWidth; i++) {
+            this.drawLine(i, 0, i, game.screenHeight, game.map.colors.grid);
+        }
+        for (let i = 0; i < game.screenHeight; i++) {
+            this.drawLine(0, i, game.screenWidth, i, game.map.colors.grid);
         }
     }
 

@@ -8,7 +8,7 @@ import * as Maps from './modules/Maps.js';
 
 window.game = {
     tile: 20, // in px
-    fps: 1,
+    fps: 10,
     clickX: -1,
     clickY: -1,
     hoverX: -1,
@@ -30,12 +30,16 @@ window.player = new Player();
 window.menu = new Menu();
 
 function loop() {
+    // click
     if (game.clickX > -1 && game.clickY > -1) {
         player.click();
         menu.click();
 
         canvas.click(); // reset
     }
+
+    // loop
+    player.loop();
 
     // draw
     canvas.clear();
