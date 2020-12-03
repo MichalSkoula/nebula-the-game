@@ -1,3 +1,5 @@
+import { PathFinder } from './PathFinder.js';
+
 export class Player {
     constructor() {
         this.storage = {
@@ -8,6 +10,8 @@ export class Player {
             height: 1,
             color: 'red',
         };
+
+        this.pathFinder = new PathFinder();
     }
 
     draw() {
@@ -23,11 +27,22 @@ export class Player {
     click() {
         if (this.storage.x == game.clickX && this.storage.y == game.clickY) {
             console.log("shot");
-        }
+        } 
 
-        if (game.clickY < game.screenHeight) {
+        if (game.clickY >= 0 && game.clickX >= 0 && game.clickY < game.screenHeight) {
+            let path = this.pathFinder.findShortestPath(
+                this.storage.x,
+                this.storage.y,
+                game.clickX,
+                game.clickY,
+                game.map
+            );
+            console.log(path);
+
+            /*
             this.storage.y = game.clickY;
             this.storage.x = game.clickX;
+            */    
         }
     }
 
