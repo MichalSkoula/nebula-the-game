@@ -32,9 +32,7 @@ export class Player {
             this.storage.y = this.actualPath[0][1];
             this.actualPath.shift();
         }
-    }
 
-    click() {
         if (this.storage.x == game.clickX && this.storage.y == game.clickY) {
             console.log("shot");
         } 

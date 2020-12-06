@@ -14,6 +14,6 @@ export function collision(rect1, rect2) {
 export function clickInsideMenuButton(clickX, clickY, rect) {
     return (
         clickX >= rect.x && clickX <= rect.x + rect.width &&
-        clickY >= rect.y + game.screenHeight && clickY <= rect.y + rect.height + game.screenHeight
+        (clickY - game.offsetY) >= rect.y + game.screenHeight && (clickY - game.offsetY) <= rect.y + rect.height + game.screenHeight
     );
 }

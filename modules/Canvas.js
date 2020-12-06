@@ -54,42 +54,9 @@ export class Canvas {
         }
     }
 
-    click() {
+    loop() {
         //console.log(game.clickX, game.clickY);
         game.clickX = -1;
         game.clickY = -1;
     }
-
-    registerControls() {
-        // mouse click coords
-        this.canvasEl.addEventListener('click', function(e) {
-            game.clickX = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
-            game.clickY = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
-        }, false);
-
-        // map scroll - keys
-        document.addEventListener('keydown', function(e) {
-            if (e.key == 'ArrowUp' && game.offsetY > 0) {
-                game.offsetY -= 1;
-            } else if (e.key == 'ArrowRight' && game.offsetX < game.map.size - game.screenWidth) {
-                game.offsetX += 1;
-            } else if (e.key == 'ArrowDown' && game.offsetY < game.map.size - game.screenHeight) {
-               game.offsetY += 1;
-            } else if (e.key == 'ArrowLeft' && game.offsetX > 0) {
-               game.offsetX -= 1;
-            }
-        }, false);
-
-        // map scroll - mouse TODO
-        function trackMouse(e) {
-            game.hoverX = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile);
-            game.hoverY = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile);
-
-            //console.log('hover', game.hoverX, game.hoverY);
-        }
-        this.canvasEl.addEventListener('mousemove', trackMouse, false);
-        this.canvasEl.addEventListener('mouseenter', trackMouse, false);
-        this.canvasEl.addEventListener('mouseleave', trackMouse, false);
-    }
 }
-
