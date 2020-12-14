@@ -8,7 +8,7 @@ import * as Maps from './modules/Maps.js';
 
 window.game = {
     tile: 20, // in px
-    fps: 30,
+    fps: 5,
     clickX: -1,
     clickY: -1,
     hoverX: -1,

@@ -87,7 +87,7 @@ export class Controls {
             game.offsetY -= 1;
         } else if (game.hoverX >= game.screenWidth - 3 && game.offsetX < game.map.size - game.screenWidth) {
             game.offsetX += 1;
-        } else if (game.hoverY >= game.screenHeight - 3 && game.hoverY < game.screenHeight && game.offsetY < game.map.size - game.screenHeight) {
+        } else if (game.hoverY >= (game.screenHeight + game.menuHeight) - 3 && game.hoverY < (game.screenHeight + game.menuHeight) && game.offsetY < game.map.size - game.screenHeight) {
             game.offsetY += 1;
         } else if (game.hoverX <= 2 && game.offsetX > 0) {
             game.offsetX -= 1;
