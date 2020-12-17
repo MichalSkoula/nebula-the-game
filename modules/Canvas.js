@@ -54,6 +54,11 @@ export class Canvas {
         }
     }
 
+    drawStats() {
+        this.drawText(70, 2 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColor, 2);
+        this.drawText(70, 4 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColor, 2);
+    }
+
     loop() {
         //console.log(game.clickX, game.clickY);
         game.clickX = -1;

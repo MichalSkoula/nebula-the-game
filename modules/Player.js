@@ -17,9 +17,12 @@ export class Player {
 
     draw() {
         this.storage.units.forEach(unit => {
-            console.log(typeof unit);
             unit.draw(this.storage.color);
         });
+    }
+
+    addUnit() {
+        this.storage.units.push(new Unit(5, 5));
     }
 
     save() {

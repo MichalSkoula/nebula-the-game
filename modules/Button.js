@@ -37,6 +37,9 @@ export class Button {
             case 'load':
                 player.load();
                 break;
+            case 'unit':
+                player.addUnit();
+                break;
             default:
                 break;
         }

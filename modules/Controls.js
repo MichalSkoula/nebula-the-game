@@ -32,7 +32,7 @@ export class Controls {
     buttons = [
         new Button(
             'pink',
-            'black',
+            game.fontColor,
             'SAVE',
             'save',
             1,
@@ -40,20 +40,29 @@ export class Controls {
         ),
         new Button(
             'pink',
-            'black',
+            game.fontColor,
             'LOAD',
             'load',
             1,
             5,
         ),
+        new Button(
+            'pink',
+            game.fontColor,
+            'NEW UNIT',
+            'unit',
+            15,
+            1,
+            16
+        )
     ]
 
     draw() {
         // menu background
         canvas.drawRect(
-            0, 
+            0,
             game.screenHeight, 
-            game.screenWidth, 
+            game.screenWidth,
             game.screenHeight + game.menuHeight,
             'DarkSlateBlue'
         )

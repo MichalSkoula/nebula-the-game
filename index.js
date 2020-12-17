@@ -8,7 +8,7 @@ import * as Maps from './modules/Maps.js';
 
 window.game = {
     tile: 20, // in px
-    fps: 5,
+    fps: 10,
     clickX: -1,
     clickY: -1,
     hoverX: -1,
@@ -18,6 +18,7 @@ window.game = {
     screenWidth: 96,
     screenHeight: 42,
     menuHeight: 12,
+    fontColor: 'black',
     map: new Maps.First()
 };
 
@@ -34,8 +35,12 @@ function loop() {
     // draw
     canvas.clear();
     canvas.drawMap();
-    player.draw();
+
     controls.draw();
+    canvas.drawStats();
+
+    player.draw();
+    
 }
 
 // start 
