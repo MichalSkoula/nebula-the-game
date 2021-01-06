@@ -8,7 +8,7 @@ import * as Maps from './modules/Maps.js';
 
 window.game = {
     tile: 20, // in px
-    fps: 10,
+    fps: 20,
     clickX: -1,
     clickY: -1,
     hoverX: -1,
@@ -40,7 +40,6 @@ function loop() {
     canvas.drawStats();
 
     player.draw();
-    
 }
 
 // start 

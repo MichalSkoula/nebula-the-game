@@ -33,10 +33,36 @@ export class PathFinder {
 
         // Find path
         let path = [];
-        let dist = planner.search(startX, startY, endX, endY, path);
+        planner.search(startX, startY, endX, endY, path);        
+        path = this.convert1Dto2D(path, 2);
 
-        console.log(path);
-        
-        return this.convert1Dto2D(path, 2);
+        // Fill in the gaps for smooth walk
+        let finalPath = [];
+        for (let i = 0; i < path.length; i++) {
+            finalPath.push(path[i]);
+
+            if (typeof path[i + 1] !== 'undefined') {
+                if (path[i][0] > path[i + 1][0]) { // left
+                    for (let y = path[i][0]; y > path[i + 1][0]; y--) {
+                        finalPath.push([y, path[i][1]]);
+                    }
+                } else if (path[i][0] < path[i + 1][0]) { // right
+                    for (let y = path[i][0]; y < path[i + 1][0]; y++) {
+                        finalPath.push([y, path[i][1]]);
+                    }
+                } else if (path[i][1] > path[i + 1][1]) { // up
+                    for (let y = path[i][1]; y > path[i + 1][1]; y--) {
+                        finalPath.push([path[i][0], y]);
+                    }
+                } else if (path[i][1] < path[i + 1][1]) { 
+                    for (let y = path[i][1]; y < path[i + 1][1]; y++) {
+                        finalPath.push([path[i][0], y]);
+                    }
+                }
+            }
+        }
+
+        //console.log(finalPath);
+        return finalPath;
     }
 }

@@ -92,6 +92,8 @@ export class Controls {
         }
 
         // mouse hover on the edge - move map
+        // for development purpuse commented out
+        /*
         if (game.hoverY <= 2 && game.offsetY > 0) {
             game.offsetY -= 1;
         } else if (game.hoverX >= game.screenWidth - 3 && game.offsetX < game.map.size - game.screenWidth) {
@@ -101,5 +103,6 @@ export class Controls {
         } else if (game.hoverX <= 2 && game.offsetX > 0) {
             game.offsetX -= 1;
         }
+        */
     }
 }
