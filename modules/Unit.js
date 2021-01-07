@@ -8,6 +8,7 @@ export class Unit {
         this.y = y;
         this.width = 1;
         this.height = 1;
+        this.selected = false;
 
         this.pathFinder = new PathFinder();
         this.actualPath = [];
@@ -15,34 +16,56 @@ export class Unit {
 
     draw(color) {
         canvas.drawRect(
-            this.x - game.offsetX, 
-            this.y - game.offsetY, 
-            this.width, 
-            this.height, 
+            this.x - game.offsetX,
+            this.y - game.offsetY,
+            this.width,
+            this.height,
             color
         );
+
+        if (this.selected) {
+            canvas.drawRectEmpty(
+                this.x - game.offsetX,
+                this.y - game.offsetY,
+                this.width,
+                this.height,
+                game.selectColor,
+                4
+            );
+        }
+    }
+
+    unselect() {
+        this.selected = false;
+    }
+
+    select() {
+        this.selected = true;
     }
 
     loop() {
         // planned path? move!
         if (this.actualPath.length) {
-            this.x = this.actualPath[0][0];
-            this.y = this.actualPath[0][1];
-            this.actualPath.shift();
+            // TODO can move?
+            if (true) {
+                this.x = this.actualPath[0][0];
+                this.y = this.actualPath[0][1];
+                this.actualPath.shift();    
+            }
         }
 
-        // just test
+        // select unit
         if (this.x == game.clickX && this.y == game.clickY) {
-            console.log("shot");
+            this.select();
         } 
 
         // move? find path
-        if (game.clickY >= 0 && game.clickX >= 0 && game.clickY < game.screenHeight + game.offsetY) {
+        if (this.selected && game.clickYRight >= 0 && game.clickXRight >= 0 && game.clickYRight < game.screenHeight + game.offsetY) {
             let path = this.pathFinder.findPath(
                 this.x,
                 this.y,
-                game.clickX,
-                game.clickY,
+                game.clickXRight,
+                game.clickYRight,
                 game.map
             );
             

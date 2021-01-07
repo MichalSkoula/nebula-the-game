@@ -10,6 +10,11 @@ export class Player {
     }
 
     loop() {
+        // click on map?
+        if (game.clickY >= 0 && game.clickX >= 0 && game.clickY < game.screenHeight + game.offsetY) {
+            this.unselectAllUnits();
+        }
+
         this.storage.units.forEach(unit => {
             unit.loop();
         });
@@ -23,6 +28,12 @@ export class Player {
 
     addUnit() {
         this.storage.units.push(new Unit(5, 5));
+    }
+
+    unselectAllUnits() {
+        this.storage.units.forEach(unit => {
+            unit.unselect();
+        });
     }
 
     save() {

@@ -16,13 +16,27 @@ export class Canvas {
         this.ctx.fillRect(x * game.tile, y * game.tile, width * game.tile, height * game.tile);
     }
 
+    drawRectEmpty(x, y, width, height, color, lineWidth = 1) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = lineWidth;
+        this.ctx.strokeStyle = color;
+        this.ctx.rect(
+            x * game.tile - lineWidth / 2,
+            y * game.tile - lineWidth / 2,
+            width * game.tile + lineWidth,
+            height * game.tile + lineWidth,
+        );
+        this.ctx.stroke();
+    }
+
     drawText(x, y, text, color, size) {
         this.ctx.font = size * game.tile + "px Arial";
         this.ctx.fillStyle = color;
         this.ctx.fillText(text, x * game.tile, y * game.tile);
     }
 
-    drawLine(x, y, x2, y2, color) {
+    drawLine(x, y, x2, y2, color, lineWidth = 1) {
+        this.ctx.lineWidth = lineWidth;
         this.ctx.strokeStyle = color;
         this.ctx.beginPath();
         this.ctx.moveTo(x * game.tile, y * game.tile);
@@ -57,11 +71,5 @@ export class Canvas {
     drawStats() {
         this.drawText(70, 2 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColor, 2);
         this.drawText(70, 4 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColor, 2);
-    }
-
-    loop() {
-        //console.log(game.clickX, game.clickY);
-        game.clickX = -1;
-        game.clickY = -1;
     }
 }

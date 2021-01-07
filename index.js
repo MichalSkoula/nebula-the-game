@@ -11,6 +11,8 @@ window.game = {
     fps: 20,
     clickX: -1,
     clickY: -1,
+    clickXRight: -1,
+    clickYRight: -1,
     hoverX: -1,
     hoverY: -1,
     offsetX: 0,
@@ -19,6 +21,7 @@ window.game = {
     screenHeight: 42,
     menuHeight: 12,
     fontColor: 'black',
+    selectColor: '#00B200',
     map: new Maps.First()
 };
 
@@ -30,7 +33,6 @@ function loop() {
     // loop
     player.loop();
     controls.loop();
-    canvas.loop();
 
     // draw
     canvas.clear();

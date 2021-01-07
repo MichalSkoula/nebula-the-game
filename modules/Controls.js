@@ -8,6 +8,12 @@ export class Controls {
             game.clickX = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
             game.clickY = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
         }, false);
+        // mouse right click coords
+        canvas.canvasEl.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            game.clickXRight = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
+            game.clickYRight = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
+        }, false);
 
         // mouse position
         canvas.canvasEl.addEventListener('mousemove', function(e) {
@@ -90,6 +96,11 @@ export class Controls {
                 }
             });
         }
+
+        game.clickX = -1;
+        game.clickY = -1;
+        game.clickXRight = -1;
+        game.clickYRight = -1;
 
         // mouse hover on the edge - move map
         // for development purpuse commented out
