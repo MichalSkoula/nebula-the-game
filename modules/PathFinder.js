@@ -18,12 +18,20 @@ export class PathFinder {
         return [].concat(...matrix);
     }
 
-    reduceOnlyToCollisionAble(matrix) {
+    reduceOnlyToCollisionAble(startX, startY, matrix, units) {
+        units.forEach(unit => {
+            if (unit.y == startY && unit.x == startX) {
+                matrix[unit.y][unit.x] = 0; // this is me :) free way
+            } else {
+                matrix[unit.y][unit.x] = 1; // blocked by another unit
+            }
+        });
+
         return matrix;
     }
 
-    findPath(startX, startY, endX, endY, map) {
-        let grid = this.reduceOnlyToCollisionAble(map.matrix);
+    findPath(startX, startY, endX, endY, map, units) {
+        let grid = this.reduceOnlyToCollisionAble(startX, startY, map.matrix, units);
 
         // transpose it ... for whatever reason because of this library
         grid = this.transpose(grid);

@@ -66,7 +66,8 @@ export class Unit {
                 this.y,
                 game.clickXRight,
                 game.clickYRight,
-                game.map
+                game.map,
+                player.storage.units,
             );
             
             if (path.length) {
