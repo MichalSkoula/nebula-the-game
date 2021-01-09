@@ -1,5 +1,5 @@
 export class Button {
-    constructor(bgColor, color, text, id, x, y, width = 9, height = 3, active = true) {
+    constructor(bgColor, color, text, id, x, y, width = 5, height = 1.5, active = true) {
         this.bgColor = bgColor;
         this.color = color;
         this.text = text;
@@ -32,10 +32,10 @@ export class Button {
     performClick() {
         switch (this.id) {
             case 'save':
-                player.save();
+                game.save();
                 break;
             case 'load':
-                player.load();
+                game.load();
                 break;
             case 'unit':
                 player.addUnit();

@@ -35,27 +35,4 @@ export class Player {
             unit.unselect();
         });
     }
-
-    save() {
-        localStorage.setItem('player', JSON.stringify(this.storage));
-        console.log("game saved");
-    }
-
-    load() {
-        if (typeof localStorage.getItem('player') !== null) {
-            this.storage = {
-                ...this.storage,
-                ...JSON.parse(localStorage.getItem('player'))
-            }
-
-            // recreate units as proper objects with methods
-            this.storage.units.forEach((unit, index) => {
-                this.storage.units[index] = new Unit(unit.x, unit.y, unit.health);
-            });
-
-            console.log("game loaded");
-            return true;
-        }
-        return false;
-    }
 }

@@ -29,7 +29,7 @@ export class Canvas {
         this.ctx.stroke();
     }
 
-    drawText(x, y, text, color, size) {
+    drawText(x, y, text, color, size = 1) {
         this.ctx.font = size * game.tile + "px Arial";
         this.ctx.fillStyle = color;
         this.ctx.fillText(text, x * game.tile, y * game.tile);
@@ -69,7 +69,7 @@ export class Canvas {
     }
 
     drawStats() {
-        this.drawText(70, 2 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColor, 2);
-        this.drawText(70, 4 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColor, 2);
+        this.drawText(45, 1.5 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColorInvert, 1);
+        this.drawText(45, 2.5 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColorInvert, 1);
     }
 }

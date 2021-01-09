@@ -57,7 +57,7 @@ export class Unit {
         // select unit
         if (this.x == game.clickX && this.y == game.clickY) {
             this.select();
-        } 
+        }
 
         // move? find path
         if (this.selected && game.clickYRight >= 0 && game.clickXRight >= 0 && game.clickYRight < game.screenHeight + game.offsetY) {

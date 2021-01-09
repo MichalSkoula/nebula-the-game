@@ -50,16 +50,16 @@ export class Controls {
             'LOAD',
             'load',
             1,
-            5,
+            4,
         ),
         new Button(
             'pink',
             game.fontColor,
             'NEW UNIT',
             'unit',
-            15,
+            9,
             1,
-            16
+            8
         )
     ]
 

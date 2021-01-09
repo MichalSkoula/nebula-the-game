@@ -18,9 +18,15 @@ export class PathFinder {
         return [].concat(...matrix);
     }
 
+    reduceOnlyToCollisionAble(matrix) {
+        return matrix;
+    }
+
     findPath(startX, startY, endX, endY, map) {
+        let grid = this.reduceOnlyToCollisionAble(map.matrix);
+
         // transpose it ... for whatever reason because of this library
-        let grid = this.transpose(map.matrix);
+        grid = this.transpose(grid);
 
         // create 1D array from 2D array
         grid = this.convert2Dto1D(grid);
