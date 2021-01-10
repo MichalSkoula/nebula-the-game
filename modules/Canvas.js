@@ -54,6 +54,9 @@ export class Canvas {
                     case 1:
                         this.drawRect(col, row, 1, 1, game.map.colors.wall);
                         break;
+                    case 3:
+                        this.drawRect(col, row, 1, 1, game.map.colors.water);
+                        break;
                     default: break;
                 }
             }
@@ -61,10 +64,40 @@ export class Canvas {
 
         // grid
         for (let i = 0; i < game.screenWidth; i++) {
-            this.drawLine(i, 0, i, game.screenHeight, game.map.colors.grid);
+            this.drawLine(i, 0, i, game.screenHeight, game.map.colors.grid, 0.5);
         }
         for (let i = 0; i < game.screenHeight; i++) {
-            this.drawLine(0, i, game.screenWidth, i, game.map.colors.grid);
+            this.drawLine(0, i, game.screenWidth, i, game.map.colors.grid, 0.5);
+        }
+    }
+
+    drawMiniMap() {
+        let size = 1 / game.miniMapRatio;
+
+        // draw whole background at once
+        this.drawRect(
+            game.miniMapOffsetX,
+            game.screenHeight + game.miniMapOffsetY,
+            game.map.size * size,
+            game.map.size * size,
+            game.map.colors.grass
+        );
+
+        for (let row = 0; row < game.map.size; row++) {
+            for (let col = 0; col < game.map.size; col++) {
+                let x = game.miniMapOffsetX + col / game.miniMapRatio;
+                let y = game.screenHeight + game.miniMapOffsetY + row / game.miniMapRatio;
+                
+                switch (game.map.matrix[row][col]) {
+                    case 1:
+                        this.drawRect(x, y, size, size, game.map.colors.wall);
+                        break;
+                    case 3:
+                        this.drawRect(x, y, size, size, game.map.colors.water);
+                        break;
+                    default: break;
+                }
+            }
         }
     }
 

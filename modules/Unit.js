@@ -15,6 +15,16 @@ export class Unit {
     }
 
     draw(color) {
+        // minimap
+        canvas.drawRect(
+            game.miniMapOffsetX + this.x / game.miniMapRatio,
+            game.screenHeight + game.miniMapOffsetY + this.y / game.miniMapRatio,
+            1 / 20,
+            1 / 20,
+            color
+        );
+
+        // map
         canvas.drawRect(
             this.x - game.offsetX,
             this.y - game.offsetY,

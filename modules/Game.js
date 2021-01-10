@@ -19,6 +19,9 @@ export class Game {
         this.fontColorInvert = 'white';
         this.selectColor = '#00B200';
         this.map = selectedMap;
+        this.miniMapRatio = 33;
+        this.miniMapOffsetX = 35;
+        this.miniMapOffsetY = 0.5;
     }
 
     save() {
