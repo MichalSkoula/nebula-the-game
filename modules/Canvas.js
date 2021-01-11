@@ -83,6 +83,16 @@ export class Canvas {
             game.map.colors.grass
         );
 
+        // draw viewport rectangle 
+        this.drawRectEmpty(
+            game.miniMapOffsetX + game.offsetX * size,
+            game.screenHeight + game.miniMapOffsetY + game.offsetY * size,
+            game.screenWidth * size,
+            game.screenHeight * size,
+            game.fontColor,
+            1
+        );
+
         for (let row = 0; row < game.map.size; row++) {
             for (let col = 0; col < game.map.size; col++) {
                 let x = game.miniMapOffsetX + col / game.miniMapRatio;
