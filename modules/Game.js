@@ -1,4 +1,5 @@
 import { Unit } from './Unit.js';
+import { PathFinder } from './PathFinder.js';
 
 export class Game {
     constructor(selectedMap) {
@@ -22,6 +23,7 @@ export class Game {
         this.miniMapRatio = 33;
         this.miniMapOffsetX = 35;
         this.miniMapOffsetY = 0.5;
+        this.pathFinder = new PathFinder();
     }
 
     save() {

@@ -1,4 +1,3 @@
-import { PathFinder } from './PathFinder.js';
 import * as tools from './tools.js';
 
 export class Unit {
@@ -10,7 +9,6 @@ export class Unit {
         this.height = 1;
         this.selected = false;
 
-        this.pathFinder = new PathFinder();
         this.actualPath = [];
     }
 
@@ -25,11 +23,10 @@ export class Unit {
         );
 
         // map
-        canvas.drawRect(
+        canvas.drawCircle(
             this.x - game.offsetX,
             this.y - game.offsetY,
             this.width,
-            this.height,
             color
         );
 
@@ -71,12 +68,11 @@ export class Unit {
 
         // move? find path
         if (this.selected && game.clickYRight >= 0 && game.clickXRight >= 0 && game.clickYRight < game.screenHeight + game.offsetY) {
-            let path = this.pathFinder.findPath(
+            let path = game.pathFinder.findPath(
                 this.x,
                 this.y,
                 game.clickXRight,
                 game.clickYRight,
-                game.map,
                 player.storage.units,
             );
             

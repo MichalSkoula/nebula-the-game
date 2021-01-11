@@ -18,20 +18,26 @@ export class PathFinder {
         return [].concat(...matrix);
     }
 
-    reduceOnlyToCollisionAble(startX, startY, matrix, units) {
+    freeWay(startX, startY, units) {
+        let matrix = this.reduceOnlyToCollisionAble(startX, startY, units, false);
+        return !matrix[startY][startX];
+    }
+
+    reduceOnlyToCollisionAble(startX, startY, units, ignoreMe = true) {
+        let matrix = game.map.matrix;
         units.forEach(unit => {
-            if (unit.y == startY && unit.x == startX) {
+            if (unit.y == startY && unit.x == startX && ignoreMe) {
                 matrix[unit.y][unit.x] = 0; // this is me :) free way
             } else {
-                matrix[unit.y][unit.x] = 1; // blocked by another unit
+                matrix[unit.y][unit.x] = 2; // blocked by another unit
             }
         });
 
         return matrix;
     }
 
-    findPath(startX, startY, endX, endY, map, units) {
-        let grid = this.reduceOnlyToCollisionAble(startX, startY, map.matrix, units);
+    findPath(startX, startY, endX, endY, units) {
+        let grid = this.reduceOnlyToCollisionAble(startX, startY, units);
 
         // transpose it ... for whatever reason because of this library
         grid = this.transpose(grid);
@@ -40,7 +46,7 @@ export class PathFinder {
         grid = this.convert2Dto1D(grid);
 
         // Create a maze as an ndarray
-        let maze = window.ndarray(grid, [map.size, map.size]);
+        let maze = window.ndarray(grid, [game.map.size, game.map.size]);
 
         // Create path planner
         let planner = window.createPlanner(maze);
