@@ -3,6 +3,8 @@ import * as tools from './tools.js';
 
 export class Controls {
     constructor() {
+        this.keymap = {};
+
         // mouse click coords
         canvas.canvasEl.addEventListener('click', function(e) {
             game.clickX = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
@@ -23,16 +25,25 @@ export class Controls {
 
         // map scroll - keys
         document.addEventListener('keydown', function(e) {
-            if (e.key == 'ArrowUp' && game.offsetY > 0) {
+            
+        }, false);
+
+        document.onkeydown = document.onkeyup = function(e) {
+            controls.keymap[e.keyCode] = e.type == 'keydown';
+            
+            if (controls.keymap[38] && game.offsetY > 0) {
                 game.offsetY -= 1;
-            } else if (e.key == 'ArrowRight' && game.offsetX < game.map.size - game.screenWidth) {
+            }
+            if (controls.keymap[39] && game.offsetX < game.map.size - game.screenWidth) {
                 game.offsetX += 1;
-            } else if (e.key == 'ArrowDown' && game.offsetY < game.map.size - game.screenHeight) {
+            }
+            if (controls.keymap[40] && game.offsetY < game.map.size - game.screenHeight) {
                 game.offsetY += 1;
-            } else if (e.key == 'ArrowLeft' && game.offsetX > 0) {
+            }
+            if (controls.keymap[37] && game.offsetX > 0) {
                 game.offsetX -= 1;
             }
-        }, false);
+        }
     }
 
     buttons = [
