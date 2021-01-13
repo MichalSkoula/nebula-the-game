@@ -5,16 +5,20 @@ export class Button {
         this.text = text;
         this.id = id;
         this.x = x;
-        this.y = y;
+        this.y = y + game.screenHeight;
         this.width = width;
         this.height = height;
         this.active = active;
     }
 
     draw() {
+        if (!this.active) {
+            return;
+        }
+
         canvas.drawRect(
             this.x,
-            this.y + game.screenHeight,
+            this.y,
             this.width,
             this.height,
             this.bgColor
@@ -22,7 +26,7 @@ export class Button {
 
         canvas.drawText(
             this.x,
-            this.y + game.screenHeight + this.height,
+            this.y + this.height,
             this.text,
             this.color,
             this.height
@@ -30,6 +34,10 @@ export class Button {
     }
 
     performClick() {
+        if (!this.active) {
+            return;
+        }
+
         switch (this.id) {
             case 'save':
                 game.save();

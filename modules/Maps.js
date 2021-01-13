@@ -10,7 +10,8 @@ export class First {
         wall: 'grey',
         grass: '#BFF4A5',
         grid: '#808080',
-        water: '#5E9AF3'
+        water: '#5E9AF3',
+        nothing: '#000000'
     }
 
     size = 192;

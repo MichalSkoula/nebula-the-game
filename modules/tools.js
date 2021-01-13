@@ -15,9 +15,22 @@ export function collision(rect1, rect2) {
     );
 }
 
-export function clickInsideMenuButton(clickX, clickY, rect) {
+export function clickInside(clickX, clickY, rect) {
     return (
-        clickX >= rect.x && clickX <= rect.x + rect.width &&
-        (clickY - game.offsetY) >= rect.y + game.screenHeight && (clickY - game.offsetY) <= rect.y + rect.height + game.screenHeight
+        clickX >= rect.x 
+        && clickX <= rect.x + rect.width 
+        && (clickY) >= rect.y
+        && (clickY) <= rect.y + rect.height
     );
 }
+
+/*
+export function clickInsideCoordinates(clickX, clickY, x, y, width, height) {
+    return (
+        clickX >= x 
+        && clickX <= x + width 
+        && (clickY) >= y 
+        && (clickY) <= y + height
+    );
+}
+*/

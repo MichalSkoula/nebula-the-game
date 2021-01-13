@@ -21,13 +21,10 @@ function loop() {
     canvas.clear();
     canvas.drawMap();
 
+    player.draw();
 
     controls.draw();
     canvas.drawStats();
-
-    canvas.drawMiniMap();
-
-    player.draw();
 }
 
 // start 

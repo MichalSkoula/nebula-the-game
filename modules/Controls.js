@@ -1,4 +1,5 @@
 import { Button } from './Button.js';
+import { Minimap } from './Minimap.js';
 import * as tools from './tools.js';
 
 export class Controls {
@@ -7,8 +8,14 @@ export class Controls {
 
         // mouse click coords
         canvas.canvasEl.addEventListener('click', function(e) {
-            game.clickX = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
-            game.clickY = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
+            game.clickXViewportPrecise = ((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile;
+            game.clickYViewportPrecise = ((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile;
+
+            game.clickXViewport = Math.floor(game.clickXViewportPrecise);
+            game.clickYViewport = Math.floor(game.clickYViewportPrecise);
+            
+            game.clickX = game.clickXViewport + game.offsetX;
+            game.clickY = game.clickYViewport + game.offsetY;
         }, false);
         // mouse right click coords
         canvas.canvasEl.addEventListener('contextmenu', function(e) {
@@ -24,23 +31,19 @@ export class Controls {
         }, false);
 
         // map scroll - keys
-        document.addEventListener('keydown', function(e) {
-            
-        }, false);
-
         document.onkeydown = document.onkeyup = function(e) {
             controls.keymap[e.keyCode] = e.type == 'keydown';
             
-            if (controls.keymap[38] && game.offsetY > 0) {
+            if (controls.keymap[38] && game.offsetY > 0) { // up
                 game.offsetY -= 1;
             }
-            if (controls.keymap[39] && game.offsetX < game.map.size - game.screenWidth) {
+            if (controls.keymap[39] && game.offsetX < game.map.size - game.screenWidth) { // right
                 game.offsetX += 1;
             }
-            if (controls.keymap[40] && game.offsetY < game.map.size - game.screenHeight) {
+            if (controls.keymap[40] && game.offsetY < game.map.size - game.screenHeight) { // down
                 game.offsetY += 1;
             }
-            if (controls.keymap[37] && game.offsetX > 0) {
+            if (controls.keymap[37] && game.offsetX > 0) { // left
                 game.offsetX -= 1;
             }
         }
@@ -74,6 +77,8 @@ export class Controls {
         )
     ]
 
+    minimap = new Minimap();
+
     draw() {
         // menu background
         canvas.drawRect(
@@ -86,35 +91,41 @@ export class Controls {
     
         // menu buttons
         this.buttons.forEach((button) => {
-            if (!button.active) {
-                return;
-            }
-
             button.draw();
         });
+
+        // minimap 
+        this.minimap.draw();
     }
 
     loop() {
         // menu click
-        if (game.clickY > game.screenHeight) {
+        if (game.clickYViewport >= game.screenHeight) {
+            // buttons click 
             this.buttons.forEach((button) => {
-                if (!button.active) {
-                    return;
-                }
-
-                if (tools.clickInsideMenuButton(game.clickX, game.clickY, button)) {
-                    button.performClick();                  
+                if (tools.clickInside(game.clickXViewport, game.clickYViewport, button)) {
+                    button.performClick();
                 }
             });
+
+            // minimap click
+            if (tools.clickInside(game.clickXViewport, game.clickYViewport, this.minimap)) {
+                this.minimap.moveViewport();
+            }
         }
 
+        // reset
         game.clickX = -1;
         game.clickY = -1;
+        game.clickXViewport = -1;
+        game.clickYViewport = -1;
+        game.clickXViewportPrecise = -1;
+        game.clickYViewportPrecise = -1;
         game.clickXRight = -1;
         game.clickYRight = -1;
 
         // mouse hover on the edge - move map
-        // for development purpuse commented out
+        // for development purpuses commented out
         /*
         if (game.hoverY <= 2 && game.offsetY > 0) {
             game.offsetY -= 1;

@@ -7,6 +7,10 @@ export class Game {
         this.fps = 20;
         this.clickX = -1;
         this.clickY = -1;
+        this.clickXViewport = -1;
+        this.clickYViewport = -1;
+        this.clickXViewportPrecise = -1;
+        this.clickYViewportPrecise = -1;
         this.clickXRight = -1;
         this.clickYRight = -1;
         this.hoverX = -1;
@@ -20,9 +24,8 @@ export class Game {
         this.fontColorInvert = 'white';
         this.selectColor = '#00B200';
         this.map = selectedMap;
-        this.miniMapRatio = 33;
+        this.minimapTile = 0.035;
         this.miniMapOffsetX = 35;
-        this.miniMapOffsetY = 0.5;
         this.pathFinder = new PathFinder();
     }
 
