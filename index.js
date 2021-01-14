@@ -20,9 +20,7 @@ function loop() {
     // draw
     canvas.clear();
     canvas.drawMap();
-
     player.draw();
-
     controls.draw();
     canvas.drawStats();
 }
