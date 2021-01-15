@@ -57,4 +57,39 @@ export class Game {
         }
         return false;
     }
+
+    draw() {
+        // map
+        for (let row = 0; row < game.screenHeight; row++) {
+            for (let col = 0; col < game.screenWidth; col++) {
+                // terra nullis?
+                if (row + game.offsetY < 0 || row + game.offsetY >= game.map.size || col + game.offsetX < 0 || col + game.offsetX >= game.map.size) {
+                    canvas.drawRect(col, row, 1, 1, game.map.colors.nothing);
+                } else {
+                    switch (game.map.matrix[row + game.offsetY][col + game.offsetX]) {
+                        case 0:
+                        case 2:
+                            canvas.drawRect(col, row, 1, 1, game.map.colors.grass);
+                            break;
+                        case 1:
+                            canvas.drawRect(col, row, 1, 1, game.map.colors.wall);
+                            break;
+                        case 3:
+                            canvas.drawRect(col, row, 1, 1, game.map.colors.water);
+                            break;
+                        default: break;
+                    }    
+                }
+                
+            }
+        }
+
+        // grid
+        for (let i = 0; i < game.screenWidth; i++) {
+            canvas.drawLine(i, 0, i, game.screenHeight, game.map.colors.grid, 0.4);
+        }
+        for (let i = 0; i < game.screenHeight; i++) {
+            canvas.drawLine(0, i, game.screenWidth, i, game.map.colors.grid, 0.4);
+        }
+    }
 }

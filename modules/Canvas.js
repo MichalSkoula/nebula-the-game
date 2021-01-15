@@ -73,43 +73,4 @@ export class Canvas {
         this.ctx.lineTo(x2 * game.tile, y2 * game.tile);
         this.ctx.stroke();
     }
-
-    drawMap() {
-        for (let row = 0; row < game.screenHeight; row++) {
-            for (let col = 0; col < game.screenWidth; col++) {
-                // terra nullis?
-                if (row + game.offsetY < 0 || row + game.offsetY >= game.map.size || col + game.offsetX < 0 || col + game.offsetX >= game.map.size) {
-                    this.drawRect(col, row, 1, 1, game.map.colors.nothing);
-                } else {
-                    switch (game.map.matrix[row + game.offsetY][col + game.offsetX]) {
-                        case 0:
-                        case 2:
-                            this.drawRect(col, row, 1, 1, game.map.colors.grass);
-                            break;
-                        case 1:
-                            this.drawRect(col, row, 1, 1, game.map.colors.wall);
-                            break;
-                        case 3:
-                            this.drawRect(col, row, 1, 1, game.map.colors.water);
-                            break;
-                        default: break;
-                    }    
-                }
-                
-            }
-        }
-
-        // grid
-        for (let i = 0; i < game.screenWidth; i++) {
-            this.drawLine(i, 0, i, game.screenHeight, game.map.colors.grid, 0.4);
-        }
-        for (let i = 0; i < game.screenHeight; i++) {
-            this.drawLine(0, i, game.screenWidth, i, game.map.colors.grid, 0.4);
-        }
-    }
-
-    drawStats() {
-        this.drawText(45, 1.5 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColorInvert, 1);
-        this.drawText(45, 2.5 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColorInvert, 1);
-    }
 }

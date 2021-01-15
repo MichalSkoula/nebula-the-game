@@ -37,11 +37,10 @@ export class Controls {
 
         // mouse selection 
         canvas.canvasEl.addEventListener('mousedown', function(e) {
-            console.log("mousedonw");
             game.selection.x = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
             game.selection.y = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
+            
             canvas.canvasEl.addEventListener('mouseup', canvas.selectionListener = function selectionListener(e) {
-                console.log("mouseup");
                 game.selection.width = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX - game.selection.x;
                 game.selection.height = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY - game.selection.y;
                 
@@ -124,8 +123,8 @@ export class Controls {
             game.screenHeight,
             game.screenWidth,
             game.screenHeight,
+            '#252C40',
             5,
-            '#252C40'
         );
     
         // menu buttons
@@ -135,6 +134,10 @@ export class Controls {
 
         // minimap 
         this.minimap.draw();
+
+        // stats
+        canvas.drawText(45, 1.5 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColorInvert, 1);
+        canvas.drawText(45, 2.5 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColorInvert, 1);
 
         // selection hover in progress
         if (game.selection.x !== false 

@@ -19,11 +19,12 @@ function loop() {
 
     // draw
     canvas.clear();
-    canvas.drawMap();
     
+    
+    
+    game.draw();
     controls.draw();
     player.draw();
-    canvas.drawStats();
 }
 
 // start 
