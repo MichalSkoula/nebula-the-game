@@ -16,6 +16,10 @@ export function collision(rect1, rect2) {
 }
 
 export function clickInside(clickX, clickY, rect) {
+    if (rect.x === false || rect.y === false || rect.width === false || rect.height === false) {
+        return false;
+    }
+    
     return (
         clickX >= rect.x 
         && clickX <= rect.x + rect.width 

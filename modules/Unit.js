@@ -15,14 +15,18 @@ export class Unit {
     draw(color) {
         // minimap
         canvas.drawRect(
-            game.miniMapOffsetX + this.x / game.minimapTile,
-            game.screenHeight + this.y / game.minimapTile,
-            1 / 20,
-            1 / 20,
+            game.miniMapOffsetX + this.x * game.minimapTile,
+            game.screenHeight + this.y * game.minimapTile,
+            1 / 15, // a little bigger
+            1 / 15, // a little bigger
             color
         );
 
-        // map
+        // not on menu
+        if (this.y - game.offsetY >= game.screenHeight) {
+            return; 
+        }
+
         canvas.drawCircle(
             this.x - game.offsetX,
             this.y - game.offsetY,
@@ -63,6 +67,11 @@ export class Unit {
 
         // select unit
         if (this.x == game.clickX && this.y == game.clickY) {
+            this.select();
+        }
+
+        // selection tool? 
+        if (tools.clickInside(this.x, this.y, game.selection)) {
             this.select();
         }
 

@@ -5,6 +5,7 @@ import * as tools from './tools.js';
 export class Controls {
     constructor() {
         this.keymap = {};
+        this.resetSelection();
 
         // mouse click coords
         canvas.canvasEl.addEventListener('click', function(e) {
@@ -17,6 +18,7 @@ export class Controls {
             game.clickX = game.clickXViewport + game.offsetX;
             game.clickY = game.clickYViewport + game.offsetY;
         }, false);
+
         // mouse right click coords
         canvas.canvasEl.addEventListener('contextmenu', function(e) {
             e.preventDefault();
@@ -26,9 +28,36 @@ export class Controls {
 
         // mouse position
         canvas.canvasEl.addEventListener('mousemove', function(e) {
-            game.hoverX = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile);
-            game.hoverY = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile);
+            game.hoverXViewport = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile);
+            game.hoverYViewport = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile);
+
+            game.hoverX = game.hoverXViewport + game.offsetX;
+            game.hoverY = game.hoverYViewport + game.offsetY;
         }, false);
+
+        // mouse selection 
+        canvas.canvasEl.addEventListener('mousedown', function(e) {
+            console.log("mousedonw");
+            game.selection.x = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
+            game.selection.y = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
+            canvas.canvasEl.addEventListener('mouseup', canvas.selectionListener = function selectionListener(e) {
+                console.log("mouseup");
+                game.selection.width = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX - game.selection.x;
+                game.selection.height = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY - game.selection.y;
+                
+                if (game.selection.width < 0) {
+                    game.selection.x += game.selection.width;
+                    game.selection.width = -game.selection.width;
+                }
+
+                if (game.selection.height < 0) {
+                    game.selection.y += game.selection.height;
+                    game.selection.height = -game.selection.height;
+                }
+
+                canvas.canvasEl.removeEventListener('mouseup', selectionListener, false);
+            });
+        });
 
         // map scroll - keys
         document.onkeydown = document.onkeyup = function(e) {
@@ -86,8 +115,18 @@ export class Controls {
             game.screenHeight, 
             game.screenWidth,
             game.screenHeight + game.menuHeight,
-            'DarkSlateBlue'
+            '#422390'
         )
+
+        // menu border
+        canvas.drawLine(
+            0,
+            game.screenHeight,
+            game.screenWidth,
+            game.screenHeight,
+            5,
+            '#252C40'
+        );
     
         // menu buttons
         this.buttons.forEach((button) => {
@@ -96,6 +135,30 @@ export class Controls {
 
         // minimap 
         this.minimap.draw();
+
+        // selection hover in progress
+        if (game.selection.x !== false 
+            && game.selection.width === false 
+            && game.selection.x != game.hoverX 
+            && game.selection.y != game.hoverY
+        ) {
+            canvas.drawRect(
+                game.selection.x - game.offsetX,
+                game.selection.y - game.offsetY,
+                game.hoverX - game.selection.x,
+                game.hoverY - game.selection.y,
+                '#A5B9ED',
+                0.3
+            );
+            canvas.drawRectEmpty(
+                game.selection.x - game.offsetX,
+                game.selection.y - game.offsetY,
+                game.hoverX - game.selection.x,
+                game.hoverY - game.selection.y,
+                '#606DAE',
+                5
+            );
+        }
     }
 
     loop() {
@@ -113,7 +176,7 @@ export class Controls {
                 this.minimap.moveViewport();
             }
         }
-
+        
         // reset
         game.clickX = -1;
         game.clickY = -1;
@@ -123,19 +186,34 @@ export class Controls {
         game.clickYViewportPrecise = -1;
         game.clickXRight = -1;
         game.clickYRight = -1;
+        this.resetSelection();
+        
 
         // mouse hover on the edge - move map
         // for development purpuses commented out
         /*
-        if (game.hoverY <= 2 && game.offsetY > 0) {
+        if (game.hoverYViewport <= 2 && game.offsetY > 0) {
             game.offsetY -= 1;
-        } else if (game.hoverX >= game.screenWidth - 3 && game.offsetX < game.map.size - game.screenWidth) {
+        } else if (game.hoverXViewport >= game.screenWidth - 3 && game.offsetX < game.map.size - game.screenWidth) {
             game.offsetX += 1;
-        } else if (game.hoverY >= (game.screenHeight + game.menuHeight) - 3 && game.hoverY < (game.screenHeight + game.menuHeight) && game.offsetY < game.map.size - game.screenHeight) {
+        } else if (game.hoverYViewport >= (game.screenHeight + game.menuHeight) - 3 && game.hoverYViewport < (game.screenHeight + game.menuHeight) && game.offsetY < game.map.size - game.screenHeight) {
             game.offsetY += 1;
-        } else if (game.hoverX <= 2 && game.offsetX > 0) {
+        } else if (game.hoverXViewport <= 2 && game.offsetX > 0) {
             game.offsetX -= 1;
         }
         */
+    }
+
+    resetSelection() {
+        if (game.selection.width === false && game.selection.height === false) {
+            return;
+        }
+
+        game.selection = {
+            x: false,
+            y: false,
+            width: false,
+            height: false
+        };
     }
 }

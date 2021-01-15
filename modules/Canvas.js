@@ -8,9 +8,15 @@ export class Canvas {
         this.ctx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
     }
 
-    drawRect(x, y, width, height, color) {
+    drawRect(x, y, width, height, color, alpha = 1) {
         this.ctx.fillStyle = color;
+        if (alpha != 1) {
+            this.ctx.globalAlpha = alpha;
+        }
         this.ctx.fillRect(x * game.tile, y * game.tile, width * game.tile, height * game.tile);
+        if (alpha != 1) {
+            this.ctx.globalAlpha = 1;
+        }
     }
 
     drawRectEmpty(x, y, width, height, color, lineWidth = 1) {
