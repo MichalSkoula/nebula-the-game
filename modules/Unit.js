@@ -76,7 +76,7 @@ export class Unit {
         } else if (this.moveDesireX != this.x && this.moveDesireX != this.y && this.moveDesireX != -1) {
             this.moveWait++;
 
-            if (this.moveWait > game.fps) {
+            if (this.moveWait > 1) {
                 this.findPath(this.moveDesireX, this.moveDesireY);
                 this.moveWait = 0;
             }
@@ -109,6 +109,7 @@ export class Unit {
         
         if (path.length) {
             this.actualPath = path;
+            this.moveDesireX = this.moveDesireY = -1;
         } else {
             this.moveDesireX = x;
             this.moveDesireY = y;
