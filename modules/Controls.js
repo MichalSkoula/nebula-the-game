@@ -17,6 +17,7 @@ export class Controls {
             
             game.clickX = game.clickXViewport + game.offsetX;
             game.clickY = game.clickYViewport + game.offsetY;
+            console.log("clicked on ", game.clickX, game.clickY);
         }, false);
 
         // mouse right click coords

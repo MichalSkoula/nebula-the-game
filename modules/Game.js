@@ -4,7 +4,7 @@ import { PathFinder } from './PathFinder.js';
 export class Game {
     constructor(selectedMap) {
         this.tile = 32; // in px
-        this.fps = 30;
+        this.fps = 10;
         this.clickX = -1;
         this.clickY = -1;
         this.clickXViewport = -1;

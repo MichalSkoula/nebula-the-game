@@ -18,13 +18,28 @@ export class PathFinder {
         return [].concat(...matrix);
     }
 
-    freeWay(startX, startY, units) {
-        let matrix = this.reduceOnlyToCollisionAble(startX, startY, units, false);
+    // free way terrain
+    freeWay(startX, startY, units, ignoreMe) {
+        let matrix = this.reduceOnlyToCollisionAble(startX, startY, units, ignoreMe);
         return !matrix[startY][startX];
     }
 
-    reduceOnlyToCollisionAble(startX, startY, units, ignoreMe = true) {
-        let matrix = game.map.matrix;
+    // free way units - simple
+    freeWayUnits(x, y, units) {
+        let freeWay = true;
+        units.forEach(unit => {
+            if (unit.x == x && unit.y == y) {
+                freeWay = false;
+                return;
+            }
+        });
+
+        return freeWay;
+    }
+
+    reduceOnlyToCollisionAble(startX, startY, units, ignoreMe) {
+        let matrix = clone(game.map.matrix);
+
         units.forEach(unit => {
             if (unit.y == startY && unit.x == startX && ignoreMe) {
                 matrix[unit.y][unit.x] = 0; // this is me :) free way
@@ -37,7 +52,7 @@ export class PathFinder {
     }
 
     findPath(startX, startY, endX, endY, units) {
-        let grid = this.reduceOnlyToCollisionAble(startX, startY, units);
+        let grid = this.reduceOnlyToCollisionAble(startX, startY, units, true);
 
         // transpose it ... for whatever reason because of this library
         grid = this.transpose(grid);
@@ -82,7 +97,10 @@ export class PathFinder {
             }
         }
 
-        //console.log(finalPath);
+        if (!finalPath.length) {
+            console.log("path not found");
+        }
+
         return finalPath;
     }
 }
