@@ -108,7 +108,7 @@ export class Unit {
         }
 
         // selection tool? 
-        if (tools.clickInside(this.x, this.y, game.selection)) {
+        if (tools.clickInsideExclusive(this.x, this.y, game.selection)) {
             this.select();
         }
 
