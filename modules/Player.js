@@ -100,14 +100,14 @@ export class Player {
     keyDelete() {
         for (let i = 0; i < this.storage.units.length; i++) {
             if (this.storage.units[i].selected) {
-                deleteUnit(i);
+                this.deleteUnit(i);
                 break;
             }
         }
 
         for (let i = 0; i < this.storage.buildings.length; i++) {
             if (this.storage.buildings[i].selected) {
-                deleteBuilding(i);
+                this.deleteBuilding(i);
                 break;
             }
         }
