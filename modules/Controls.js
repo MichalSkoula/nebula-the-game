@@ -59,7 +59,7 @@ export class Controls {
             });
         });
 
-        // map scroll - keys
+        // keyboard
         document.onkeydown = document.onkeyup = function(e) {
             controls.keymap[e.keyCode] = e.type == 'keydown';
             
@@ -74,6 +74,11 @@ export class Controls {
             }
             if (controls.keymap[37] && game.offsetX > 0) { // left
                 game.offsetX -= 1;
+            }
+
+            // delete
+            if (controls.keymap[46]) {
+                player.keyDelete();
             }
         }
     }
@@ -116,16 +121,6 @@ export class Controls {
             game.screenWidth,
             game.screenHeight + game.menuHeight,
             '#422390'
-        )
-
-        // menu border
-        canvas.drawLine(
-            0,
-            game.screenHeight,
-            game.screenWidth,
-            game.screenHeight,
-            '#252C40',
-            5,
         );
     
         // menu buttons
@@ -135,6 +130,27 @@ export class Controls {
 
         // minimap 
         this.minimap.draw();
+
+        // selected 
+        canvas.drawRect(
+            game.selectionOffsetX,
+            game.selectionOffsetY, 
+            game.selectionWidth,
+            game.selectionHeight,
+            '#8B2AA6'
+        );
+
+        // selected grid 
+        for (let i = game.selectionOffsetX; i <= game.selectionWidth + game.selectionOffsetX; i++) {
+            if (i % 2 == 0) {
+                canvas.drawLine(i, game.selectionOffsetY, i, game.selectionOffsetY + game.selectionHeight, game.map.colors.grid, 0.4);
+            }
+        }
+        for (let i = game.selectionOffsetY; i <= game.selectionOffsetY + game.selectionHeight; i++) {
+            if (i % 2 == 0) { 
+                canvas.drawLine(game.selectionOffsetX, i, game.selectionOffsetX + game.selectionWidth, i, game.map.colors.grid, 0.4);
+            }
+        }
 
         // stats
         canvas.drawText(45, 1.5 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColorInvert, 1);
@@ -163,6 +179,16 @@ export class Controls {
                 5
             );
         }
+
+        // menu border
+        canvas.drawLine(
+            0,
+            game.screenHeight,
+            game.screenWidth,
+            game.screenHeight,
+            '#252C40',
+            5
+        );
     }
 
     loop() {

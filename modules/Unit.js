@@ -9,6 +9,7 @@ export class Unit {
         this.height = 1;
         this.selected = false;
         this.moveWait = 0;
+        this.moveWaitGiveUp = 0;
         this.moveDesireX = -1;;
         this.moveDesireY = -1;;
 
@@ -49,6 +50,20 @@ export class Unit {
         }
     }
 
+    drawSelection(color, selectionIndex) {
+        let selectionIndexYOffset = 0;
+        if (selectionIndex >= game.selectionWidth / 2) {
+            selectionIndex -= game.selectionWidth / 2;
+            selectionIndexYOffset = 2;
+        }
+        canvas.drawCircle(
+            game.selectionOffsetX + (selectionIndex * 2) + 0.5,
+            game.selectionOffsetY + selectionIndexYOffset + 0.5,
+            this.width * 2,
+            color
+        );
+    }
+
     unselect() {
         this.selected = false;
     }
@@ -75,10 +90,15 @@ export class Unit {
             }
         } else if (this.moveDesireX != this.x && this.moveDesireX != this.y && this.moveDesireX != -1) {
             this.moveWait++;
+            this.moveWaitGiveUp++;
 
             if (this.moveWait > 1) {
                 this.findPath(this.moveDesireX, this.moveDesireY);
                 this.moveWait = 0;
+            }
+
+            if (this.moveWaitGiveUp > 5000) { // random number
+                this.actualPath = [];
             }
         }
 

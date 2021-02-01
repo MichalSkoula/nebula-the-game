@@ -4,7 +4,7 @@ import { PathFinder } from './PathFinder.js';
 export class Game {
     constructor(selectedMap) {
         this.tile = 32; // in px
-        this.fps = 10;
+        this.fps = 15;
         this.clickX = -1;
         this.clickY = -1;
         this.clickXViewport = -1;
@@ -25,9 +25,16 @@ export class Game {
         this.fontColorInvert = 'white';
         this.selectColor = '#00B200';
         this.map = selectedMap;
+
         this.minimapTile = 0.035;
-        this.miniMapOffsetX = 26.65;
+        this.miniMapOffsetX = 53.24;
+
         this.pathFinder = new PathFinder();
+
+        this.selectionOffsetX = 26;
+        this.selectionOffsetY = 28;
+        this.selectionWidth = 16;
+        this.selectionHeight = 4;
     }
 
     save() {
