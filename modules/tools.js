@@ -28,6 +28,19 @@ export function clickInside(clickX, clickY, rect) {
     );
 }
 
+export function clickInsideExclusive(clickX, clickY, rect) {
+    if (rect.x === false || rect.y === false || rect.width === false || rect.height === false) {
+        return false;
+    }
+    
+    return (
+        clickX >= rect.x 
+        && clickX < rect.x + rect.width 
+        && (clickY) >= rect.y
+        && (clickY) < rect.y + rect.height
+    );
+}
+
 /*
 export function clickInsideCoordinates(clickX, clickY, x, y, width, height) {
     return (
