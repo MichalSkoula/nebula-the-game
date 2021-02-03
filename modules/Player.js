@@ -6,7 +6,10 @@ export class Player {
             score: 0,
             color: 'red',
             units: [],
-            buildings: []
+            buildings: [],
+            resources: {
+                'gold': 200
+            }
         };
     }
 
@@ -89,6 +92,10 @@ export class Player {
 
         console.log('Unit adding failed, no space!')
         return false;
+    }
+
+    addBuilding() {
+        console.log('Building added');
     }
 
     unselectAllUnits() {

@@ -48,6 +48,9 @@ export class Button {
             case 'unit':
                 player.addUnit();
                 break;
+            case 'building':
+                player.addBuilding();
+                break;
             default:
                 break;
         }

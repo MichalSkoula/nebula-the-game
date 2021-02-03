@@ -9,7 +9,7 @@ export class First {
     colors = {
         wall: 'grey',
         grass: '#BFF4A5',
-        grid: '#808080',
+        grid: '#A3A3A3',
         water: '#5E9AF3',
         nothing: '#000000'
     }

@@ -103,11 +103,24 @@ export class Controls {
         new Button(
             'pink',
             game.fontColor,
-            'NEW UNIT',
+            '+ UNIT',
             'unit',
-            9,
+            7,
             1,
-            8
+            8,
+            1.5,
+            false
+        ),
+        new Button(
+            'pink',
+            game.fontColor,
+            '+ BUILDING',
+            'building',
+            7,
+            1,
+            9,
+            1.5,
+            true
         )
     ]
 
@@ -152,9 +165,12 @@ export class Controls {
             }
         }
 
+        // resources
+        canvas.drawText(45, 1.5 + game.screenHeight, "GOLD: " + player.storage.resources.gold, game.fontColorInvert, 1);
+
         // stats
-        canvas.drawText(45, 1.5 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColorInvert, 1);
-        canvas.drawText(45, 2.5 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColorInvert, 1);
+        canvas.drawText(45, 3.5 + game.screenHeight, "SCORE: " + player.storage.score, game.fontColorInvert, 1);
+        canvas.drawText(45, 4.5 + game.screenHeight, "UNITS: " + player.storage.units.length, game.fontColorInvert, 1);
 
         // selection hover in progress
         if (game.selection.x !== false 

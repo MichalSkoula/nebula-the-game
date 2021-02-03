@@ -1,7 +1,7 @@
 import * as tools from './tools.js';
 
 export class Unit {
-    constructor(x = 2, y = 2, health = 100) {
+    constructor(x = 2, y = 2, health = 100, type = 'villager') {
         this.health = health;
         this.x = x
         this.y = y;
@@ -10,9 +10,10 @@ export class Unit {
         this.selected = false;
         this.moveWait = 0;
         this.moveWaitGiveUp = 0;
-        this.moveDesireX = -1;;
-        this.moveDesireY = -1;;
+        this.moveDesireX = -1;
+        this.moveDesireY = -1;
 
+        this.type = type;
         this.actualPath = [];
     }
 
