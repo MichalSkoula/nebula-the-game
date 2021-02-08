@@ -23,8 +23,14 @@ export class Controls {
         // mouse right click coords
         canvas.canvasEl.addEventListener('contextmenu', function(e) {
             e.preventDefault();
-            game.clickXRight = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
-            game.clickYRight = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
+
+            // cancel building?
+            if (player.letsBuild !== null) {
+                player.letsBuild = null;
+            } else {
+                game.clickXRight = Math.floor(((e.clientX - canvas.canvasEl.offsetLeft) * (canvas.canvasEl.width / canvas.canvasEl.offsetWidth)) / game.tile) + game.offsetX;
+                game.clickYRight = Math.floor(((e.clientY - canvas.canvasEl.offsetTop) * (canvas.canvasEl.height / canvas.canvasEl.offsetHeight)) / game.tile) + game.offsetY;
+            }
         }, false);
 
         // mouse position
@@ -83,8 +89,8 @@ export class Controls {
         }
     }
 
-    buttons = [
-        new Button(
+    buttons = {
+        'save': new Button(
             'pink',
             game.fontColor,
             'SAVE',
@@ -92,7 +98,7 @@ export class Controls {
             1,
             1,
         ),
-        new Button(
+        'load': new Button(
             'pink',
             game.fontColor,
             'LOAD',
@@ -100,7 +106,7 @@ export class Controls {
             1,
             4,
         ),
-        new Button(
+        'unit': new Button(
             'pink',
             game.fontColor,
             '+ UNIT',
@@ -111,7 +117,7 @@ export class Controls {
             1.5,
             false
         ),
-        new Button(
+        'building': new Button(
             'pink',
             game.fontColor,
             '+ BUILDING',
@@ -120,9 +126,9 @@ export class Controls {
             1,
             9,
             1.5,
-            true
+            false
         )
-    ]
+    };
 
     minimap = new Minimap();
 
@@ -137,8 +143,8 @@ export class Controls {
         );
     
         // menu buttons
-        this.buttons.forEach((button) => {
-            button.draw();
+        Object.keys(this.buttons).forEach((key) => {
+            this.buttons[key].draw();
         });
 
         // minimap 
@@ -208,10 +214,16 @@ export class Controls {
     }
 
     loop() {
+        // active buttons
+        this.buttons.building.active = player.isSelectedVillager();
+        this.buttons.unit.active = player.isSelectedBuilding();
+
         // menu click
         if (game.clickYViewport >= game.screenHeight) {
             // buttons click 
-            this.buttons.forEach((button) => {
+            Object.keys(this.buttons).forEach((key) => {
+                let button = this.buttons[key];
+
                 if (tools.clickInside(game.clickXViewport, game.clickYViewport, button)) {
                     button.performClick();
                 }

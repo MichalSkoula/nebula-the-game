@@ -1,10 +1,11 @@
 import { Unit } from './Unit.js';
+import { Building } from './Building.js';
 import { PathFinder } from './PathFinder.js';
 
 export class Game {
     constructor(selectedMap) {
         this.tile = 32; // in px
-        this.fps = 15;
+        this.fps = 20;
         this.clickX = -1;
         this.clickY = -1;
         this.clickXViewport = -1;
@@ -54,9 +55,12 @@ export class Game {
                 ...JSON.parse(savedGame).player
             }
 
-            // recreate units as proper objects with methods
+            // recreate units and buildings as proper objects with methods
             player.storage.units.forEach((unit, index) => {
                 player.storage.units[index] = new Unit(unit.x, unit.y, unit.health);
+            });
+            player.storage.buildings.forEach((building, index) => {
+                player.storage.buildings[index] = new Building(building.type, building.x, building.y, building.health);
             });
 
             console.log("game loaded");

@@ -5,6 +5,7 @@ export class First {
     1 wall
     2 unit 
     3 water 
+    4 building
     */
     colors = {
         wall: 'grey',

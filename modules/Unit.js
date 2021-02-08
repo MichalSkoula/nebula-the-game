@@ -29,7 +29,7 @@ export class Unit {
 
         // not on menu
         if (this.y - game.offsetY >= game.screenHeight) {
-            return; 
+            return;
         }
 
         canvas.drawCircle(
@@ -81,13 +81,12 @@ export class Unit {
                 this.actualPath.shift();
             }
 
-            if (game.pathFinder.freeWayUnits(this.actualPath[0][0], this.actualPath[0][1], player.storage.units)) {
+            if (game.pathFinder.freeWayUnits(this.actualPath[0][0], this.actualPath[0][1])) {
                 this.x = this.actualPath[0][0];
                 this.y = this.actualPath[0][1];
                 this.actualPath.shift();
             } else {
                 console.log("blocked");
-                
             }
         } else if (this.moveDesireX != this.x && this.moveDesireX != this.y && this.moveDesireX != -1) {
             this.moveWait++;
@@ -124,8 +123,7 @@ export class Unit {
             this.x,
             this.y,
             x,
-            y,
-            player.storage.units,
+            y
         );
         
         if (path.length) {

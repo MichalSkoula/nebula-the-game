@@ -49,7 +49,7 @@ export class Button {
                 player.addUnit();
                 break;
             case 'building':
-                player.addBuilding();
+                player.build('town');
                 break;
             default:
                 break;

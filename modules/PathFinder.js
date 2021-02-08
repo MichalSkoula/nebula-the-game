@@ -19,16 +19,24 @@ export class PathFinder {
     }
 
     // free way terrain
-    freeWay(startX, startY, units, ignoreMe) {
-        let matrix = this.reduceOnlyToCollisionAble(startX, startY, units, ignoreMe);
+    // PUBLIC
+    freeWay(startX, startY, ignoreMe) {
+        let units = player.storage.units;
+        let buildings = player.storage.buildings;
+
+        let matrix = this.reduceOnlyToCollisionAble(startX, startY, units, buildings, ignoreMe);
         return !matrix[startY][startX];
     }
 
     // free way units - simple
-    freeWayUnits(x, y, units) {
+    // PUBLIC
+    freeWayUnits(desiredX, desiredY) {
+        let units = player.storage.units;
+        let buildings = player.storage.buildings;
+
         let freeWay = true;
         units.forEach(unit => {
-            if (unit.x == x && unit.y == y) {
+            if (unit.x == desiredX && unit.y == desiredY) {
                 freeWay = false;
                 return;
             }
@@ -37,7 +45,7 @@ export class PathFinder {
         return freeWay;
     }
 
-    reduceOnlyToCollisionAble(startX, startY, units, ignoreMe) {
+    reduceOnlyToCollisionAble(startX, startY, units, buildings, ignoreMe) {
         let matrix = clone(game.map.matrix);
 
         units.forEach(unit => {
@@ -48,11 +56,23 @@ export class PathFinder {
             }
         });
 
+        buildings.forEach(building => {
+            for (let y = 0; y < building.height; y++) {
+                for (let x = 0; x < building.width; x++) {                    
+                    matrix[building.y + y][building.x + x] = 4; // blocked by building
+                }
+            }
+        });
+
         return matrix;
     }
 
-    findPath(startX, startY, endX, endY, units) {
-        let grid = this.reduceOnlyToCollisionAble(startX, startY, units, true);
+    // PUBLIC
+    findPath(startX, startY, endX, endY) {
+        let units = player.storage.units;
+        let buildings = player.storage.buildings;
+
+        let grid = this.reduceOnlyToCollisionAble(startX, startY, units, buildings, true);
 
         // transpose it ... for whatever reason because of this library
         grid = this.transpose(grid);

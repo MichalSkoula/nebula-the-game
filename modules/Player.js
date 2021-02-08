@@ -1,4 +1,5 @@
 import { Unit } from './Unit.js';
+import { Building } from './Building.js';
 
 export class Player {
     constructor() {
@@ -11,9 +12,48 @@ export class Player {
                 'gold': 200
             }
         };
+        this.letsBuild = null;
     }
 
     loop() {
+        // lets build?
+        if (this.letsBuild !== null 
+            && game.hoverX > -1 
+            && game.hoverY > -1 
+            && game.hoverY <= game.screenHeight - this.letsBuild.height + game.offsetY) {
+            
+            // is it free?
+            if (this.letsBuild.x != game.hoverX || this.letsBuild.y != game.hoverY) {
+                this.letsBuild.freePlace = true;
+                outerLoop:
+                for (let y = 0; y < this.letsBuild.height; y++) {
+                    for (let x = 0; x < this.letsBuild.width; x++) {
+                        if (!game.pathFinder.freeWay(game.hoverX + x, game.hoverY + y)) {
+                            this.letsBuild.freePlace = false;
+                            break outerLoop;
+                        }
+                    }
+                }    
+            }
+
+            // set coords
+            this.letsBuild.x = game.hoverX;
+            this.letsBuild.y = game.hoverY;
+
+            // build it??
+            if (game.clickX > -1 && game.clickY > -1) {
+                // move selected villagers
+                this.storage.units.forEach(unit => {
+                    if (unit.selected && unit.type == 'villager') {
+                        unit.findPath(game.clickX, game.clickY);
+                    }
+                });
+
+                // ok, build it already
+                this.addBuilding();
+            }
+        }
+
         // click on map?
         if (game.clickY >= 0 && game.clickX >= 0 && game.clickY < game.screenHeight + game.offsetY) {
             this.unselectAllUnits();
@@ -34,10 +74,12 @@ export class Player {
     }
 
     draw() {
+        // units
         this.storage.units.forEach(unit => {
             unit.draw(this.storage.color);
         });
 
+        // selection on the menu
         let selectionIndex = 0;
         this.storage.units.forEach(unit => {
             if (unit.selected) {
@@ -45,12 +87,19 @@ export class Player {
                 selectionIndex++;
             }
         });
+
+        // buildings
+        this.storage.buildings.forEach(building => {
+            building.draw(this.storage.color);
+        });
+
+        // lets build?
+        if (this.letsBuild) {
+            this.letsBuild.draw(this.color, 0.5);
+        }
     }
 
-    addUnit() {
-        let x = 15;
-        let y = 15;
-
+    addUnit(x = 15, y = 15) {
         let testArray = [
             // first round
             [x, y],
@@ -83,7 +132,7 @@ export class Player {
         ];
 
         for (let i = 0; i < testArray.length; i++) {
-            if (game.pathFinder.freeWay(testArray[i][0], testArray[i][1], this.storage.units)) {
+            if (game.pathFinder.freeWay(testArray[i][0], testArray[i][1])) {
                 this.storage.units.push(new Unit(testArray[i][0], testArray[i][1]));
                 console.log('Unit added');
                 return true;
@@ -94,8 +143,15 @@ export class Player {
         return false;
     }
 
+    build(buildingType) {
+        this.letsBuild = new Building('town');
+    }
+
     addBuilding() {
-        console.log('Building added');
+        if (this.letsBuild !== null) {
+            this.storage.buildings.push(this.letsBuild);
+            this.letsBuild = null;    
+        }
     }
 
     unselectAllUnits() {
@@ -126,5 +182,29 @@ export class Player {
 
     deleteBuilding(deleteIndex) {
         this.storage.buildings.splice(deleteIndex, 1);
+    }
+
+    isSelectedVillager() {
+        let villager = false;
+        this.storage.units.forEach(unit => {
+            if (unit.selected && unit.type == 'villager') {
+                villager = true;
+                return;
+            }
+        });
+
+        return villager;
+    }
+
+    isSelectedBuilding() {
+        let town = false;
+        this.storage.buildings.forEach(building => {
+            if (building.selected && building.type == 'town') { // for now
+                town = true;
+                return;
+            }
+        });
+
+        return town;
     }
 }
