@@ -104,7 +104,15 @@ export class Controls {
             'LOAD',
             'load',
             1,
-            4,
+            3,
+        ),
+        'reset': new Button(
+            'pink',
+            game.fontColor,
+            'RESET',
+            'reset',
+            1,
+            5,
         ),
         'unit': new Button(
             'pink',
@@ -215,8 +223,8 @@ export class Controls {
 
     loop() {
         // active buttons
-        this.buttons.building.active = player.isSelectedVillager();
-        this.buttons.unit.active = player.isSelectedBuilding();
+        this.buttons.building.active = player.isSelectedVillager(true);
+        this.buttons.unit.active = player.isSelectedBuilding(true);
 
         // menu click
         if (game.clickYViewport >= game.screenHeight) {

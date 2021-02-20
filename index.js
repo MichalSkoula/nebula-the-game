@@ -26,6 +26,9 @@ function loop() {
     game.draw();
     controls.draw();
     player.draw();
+
+    // game loop
+    game.loop();
 }
 
 // start 

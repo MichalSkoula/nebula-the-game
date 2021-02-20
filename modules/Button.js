@@ -45,6 +45,9 @@ export class Button {
             case 'load':
                 game.load();
                 break;
+            case 'reset':
+                game.reset();
+                break;
             case 'unit':
                 player.addUnit();
                 break;

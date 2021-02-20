@@ -1,6 +1,7 @@
 import { Unit } from './Unit.js';
 import { Building } from './Building.js';
 import { PathFinder } from './PathFinder.js';
+import { Message } from './Message.js';
 
 export class Game {
     constructor(selectedMap) {
@@ -36,13 +37,16 @@ export class Game {
         this.selectionOffsetY = 28;
         this.selectionWidth = 16;
         this.selectionHeight = 4;
+
+        this.messages = [];
     }
 
     save() {
         localStorage.game = JSON.stringify({
             'player': player.storage
         });
-        console.log("game saved");
+        
+        this.newMessage("Game saved");
     }
 
     load() {
@@ -63,10 +67,26 @@ export class Game {
                 player.storage.buildings[index] = new Building(building.type, building.x, building.y, building.health);
             });
 
-            console.log("game loaded");
+            this.newMessage("Game loaded");
             return true;
         }
+
+        // no save ... just game him a villager
+        player.addUnit();
         return false;
+    }
+
+    reset() {
+        localStorage.removeItem('game');
+        this.reload();
+    }
+
+    reload() {
+        location.reload();
+    }
+
+    newMessage(text) {
+        this.messages.push(new Message(text));
     }
 
     draw() {
@@ -102,5 +122,27 @@ export class Game {
         for (let i = 0; i < game.screenHeight; i++) {
             canvas.drawLine(0, i, game.screenWidth, i, game.map.colors.grid, 0.4);
         }
+    }
+
+    loop() {
+        // game over?
+        if (player.storage.units.length === 0 && player.storage.buildings.length === 0) {
+            alert("GAME OVER");
+            this.reload();
+        }
+
+        // max N messages
+        if (this.messages.length >= 5) {
+            this.messages.splice(0, this.messages.length - 5);
+        }
+
+        this.messages.forEach((message, index) => {
+            message.draw(index);
+
+            message.loop();
+            if (message.ttl < 0) {
+                this.messages.splice(index, 1);
+            }
+        });
     }
 }

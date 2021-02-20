@@ -41,7 +41,7 @@ export class Player {
             this.letsBuild.y = game.hoverY;
 
             // build it??
-            if (game.clickX > -1 && game.clickY > -1) {
+            if (this.letsBuild.freePlace && game.clickX > -1 && game.clickY > -1) {
                 // move selected villagers
                 this.storage.units.forEach(unit => {
                     if (unit.selected && unit.type == 'villager') {
@@ -54,11 +54,13 @@ export class Player {
             }
         }
 
-        // click on map?
-        if (game.clickY >= 0 && game.clickX >= 0 && game.clickY < game.screenHeight + game.offsetY) {
+        // click on map? unselect, BUT only if not building
+        if (game.clickY >= 0 && game.clickX >= 0 && game.clickY < game.screenHeight + game.offsetY && this.letsBuild === null) {
             this.unselectAllUnits();
+            this.unselectAllBuildings();
         }
 
+        // loop for unit
         let selectionCount = 0;
         this.storage.units.forEach(unit => {
             unit.loop();
@@ -70,6 +72,11 @@ export class Player {
                     unit.selected = false;
                 }
             }
+        });
+
+        // loop for building
+        this.storage.buildings.forEach(building => {
+            building.loop();
         });
     }
 
@@ -95,7 +102,7 @@ export class Player {
 
         // lets build?
         if (this.letsBuild) {
-            this.letsBuild.draw(this.color, 0.5);
+            this.letsBuild.draw(this.color, true);
         }
     }
 
@@ -134,12 +141,12 @@ export class Player {
         for (let i = 0; i < testArray.length; i++) {
             if (game.pathFinder.freeWay(testArray[i][0], testArray[i][1])) {
                 this.storage.units.push(new Unit(testArray[i][0], testArray[i][1]));
-                console.log('Unit added');
+                game.newMessage("Unit created");
                 return true;
             }
         }
 
-        console.log('Unit adding failed, no space!')
+        game.newMessage("Cannot create unit :( no space");
         return false;
     }
 
@@ -150,13 +157,20 @@ export class Player {
     addBuilding() {
         if (this.letsBuild !== null) {
             this.storage.buildings.push(this.letsBuild);
-            this.letsBuild = null;    
+            this.letsBuild = null;
+            game.newMessage("Building built");
         }
     }
 
     unselectAllUnits() {
         this.storage.units.forEach(unit => {
             unit.unselect();
+        });
+    }
+
+    unselectAllBuildings() {
+        this.storage.buildings.forEach(building => {
+            building.unselect();
         });
     }
 
@@ -178,33 +192,42 @@ export class Player {
 
     deleteUnit(deleteIndex) {
         this.storage.units.splice(deleteIndex, 1);
+        game.newMessage("Unit killed");
     }
 
     deleteBuilding(deleteIndex) {
         this.storage.buildings.splice(deleteIndex, 1);
+        game.newMessage("Building destroyed");
     }
 
-    isSelectedVillager() {
-        let villager = false;
+    isSelectedVillager(onlyOne = false) {
+        let villagers = 0;
         this.storage.units.forEach(unit => {
             if (unit.selected && unit.type == 'villager') {
-                villager = true;
-                return;
+                villagers++;
             }
         });
 
-        return villager;
+        if (onlyOne && villagers !== 1) {
+            return false;
+        }
+
+        return villagers > 0;
     }
 
-    isSelectedBuilding() {
-        let town = false;
+    isSelectedBuilding(onlyOne = false) {
+        let towns = 0;
         this.storage.buildings.forEach(building => {
             if (building.selected && building.type == 'town') { // for now
-                town = true;
+                towns++;
                 return;
             }
         });
 
-        return town;
+        if (onlyOne && towns !== 1) {
+            return false;
+        }
+
+        return towns > 0;
     }
 }
